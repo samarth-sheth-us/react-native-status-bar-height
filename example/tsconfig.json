@@ -1,0 +1,9 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "react-native-status-bar-height": ["../src/index"]
+    }
+  }
+} 

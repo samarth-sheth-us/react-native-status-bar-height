@@ -1,0 +1,14 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "declaration": true,
+        "declarationMap": true,
+        "isolatedModules": true,
+        "noEmit": false,
+        "skipLibCheck": true
+    },
+    "exclude": [
+        "**/__tests__",
+        "example"
+    ]
+} 
