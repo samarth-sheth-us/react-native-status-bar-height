@@ -14,7 +14,13 @@ RCT_EXPORT_MODULE()
 
 - (facebook::jsi::Value)getHeight:(facebook::jsi::Runtime &)rt
 {
-    float statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
+    float statusBarHeight;
+    if (@available(iOS 13.0, *)) {
+        UIWindowScene *windowScene = (UIWindowScene *)[UIApplication sharedApplication].connectedScenes.allObjects.firstObject;
+        statusBarHeight = windowScene.statusBarManager.statusBarFrame.size.height;
+    } else {
+        statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+    }
     return facebook::jsi::Value(statusBarHeight);
 }
 
@@ -22,8 +28,14 @@ RCT_EXPORT_MODULE()
 RCT_EXPORT_METHOD(getHeight:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject)
 {
-    float statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
+    float statusBarHeight;
+    if (@available(iOS 13.0, *)) {
+        UIWindowScene *windowScene = (UIWindowScene *)[UIApplication sharedApplication].connectedScenes.allObjects.firstObject;
+        statusBarHeight = windowScene.statusBarManager.statusBarFrame.size.height;
+    } else {
+        statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+    }
     resolve(@(statusBarHeight));
 }
 
-@end
+@end 

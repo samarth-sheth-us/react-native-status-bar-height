@@ -10,7 +10,7 @@ const LINKING_ERROR =
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo Go\n';
 
-let StatusBarHeight: { getHeight(): Promise<number> };
+const { StatusBarHeight } = NativeModules;
 
 // Check if we're using the new architecture (Turbo Modules)
 if (global.nativeStatusBarHeightSpec) {
@@ -29,22 +29,17 @@ if (global.nativeStatusBarHeightSpec) {
       );
 }
 
-export async function getStatusBarHeight(skipAndroid: boolean = false): Promise<number> {
-  // Handle iOS status bar height
-  if (Platform.OS === 'ios') {
-    return StatusBarHeight.getHeight();
+export function getStatusBarHeight(skipAndroid: boolean = false): Promise<number> {
+  // Return 0 for Android when skipAndroid is true
+  if (Platform.OS === 'android' && skipAndroid) {
+    return Promise.resolve(0);
   }
-  
-  // Handle Android status bar height
-  if (Platform.OS === 'android' && !skipAndroid) {
-    // First try to get height from native module
-    try {
-      return await StatusBarHeight.getHeight();
-    } catch {
-      // Fall back to StatusBar API if native module fails
-      return StatusBar.currentHeight || 0;
-    }
+
+  if (!StatusBarHeight) {
+    return Promise.reject(
+      new Error('react-native-status-bar-height module doesn\'t seem to be linked.')
+    );
   }
-  
-  return 0;
+
+  return StatusBarHeight.getHeight();
 } 

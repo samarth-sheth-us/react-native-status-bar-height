@@ -1,0 +1,14 @@
+require_relative '../node_modules/react-native/scripts/react_native_pods'
+require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+
+# ... rest of your Podfile content ...
+
+target 'YourAppName' do
+  config = use_native_modules!
+  use_react_native!(
+    :path => config[:reactNativePath],
+    :hermes_enabled => true
+  )
+  
+  # Add any other pods you're using
+end 
