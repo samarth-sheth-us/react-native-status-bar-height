@@ -20,10 +20,10 @@ RCT_EXPORT_MODULE()
 
 // For backward compatibility with the old architecture
 RCT_EXPORT_METHOD(getHeight:(RCTPromiseResolveBlock)resolve
-                  rejecter:(RCTPromiseRejectBlock)reject)
+                  reject:(RCTPromiseRejectBlock)reject)
 {
     float statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
     resolve(@(statusBarHeight));
 }
 
-@end 
+@end
